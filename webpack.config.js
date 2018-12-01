@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	entry: './src/app.js',
 	output: {
-		filename: './dist/build.js'
+		path: './dist',
+		filename: 'static/js/build.js'
 	},
 	module: {
 		loaders: [
@@ -18,7 +19,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('dist/style.css'),
+		new ExtractTextPlugin('static/css/style.css'),
 		// Add <script> and <link> into template html
 		new HtmlWebpackPlugin({
       inject: true,
