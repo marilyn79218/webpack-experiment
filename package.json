@@ -1,10 +1,15 @@
 {
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
+  },
   "devDependencies": {
     "css-loader": "^0.25.0",
     "node-sass": "^3.11.2",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
-    "webpack": "3.5.1"
+    "webpack": "3.5.1",
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {
     "@babel/core": "^7.1.6",
@@ -17,6 +22,7 @@
     "moment": "^2.22.2",
     "path": "^0.12.7",
     "ramda": "^0.26.1",
+    "webpack-dev-server": "2.9.1",
     "webpack-manifest-plugin": "^2.0.4"
   }
 }
