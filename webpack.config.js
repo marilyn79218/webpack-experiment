@@ -15,7 +15,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/[name].[chunkhash].js'
+    filename: 'static/js/[name].[chunkhash].js',
+    chunkFilename: 'static/js/[name].chunk.js'
   },
   module: {
     rules: [
@@ -28,7 +29,8 @@ module.exports = {
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
           cacheDirectory: true,
-          presets: ['@babel/preset-env']
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-syntax-dynamic-import']
         },
       },
       {
