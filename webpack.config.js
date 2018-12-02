@@ -1,12 +1,21 @@
 const path = require('path');
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/app.js',
+  entry: {
+    app: './src/app.js',
+    vendor: [
+      'ramda',
+      'moment'
+    ]
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/build.js'
+    filename: 'static/js/[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -38,6 +47,18 @@ module.exports = {
       inject: true,
       template: 'public/index.html',
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor' // Specify the common bundle's name.
+    }),
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+    }),
+    new CleanWebpackPlugin(
+      ['dist'],
+      {
+        watch: true,
+      }
+    ),
   ],
   watch: true,
 };
