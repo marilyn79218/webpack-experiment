@@ -1,6 +1,9 @@
 import { prop } from 'ramda';
 import moment from 'moment';
+import styles from './style.cr.css';
 import './style.scss';
+
+import ChickenFakeEyes from './shared/assets/GG.jpg';
 
 const Name = ['Mike', 'Jacky', 'Andy', 'Scars'];
 Name.forEach((obj, idx)=> console.log(`${idx} => ${obj}`));
@@ -20,7 +23,7 @@ console.log('ramda - name', name);
 // To lazy load a component
 // https://webpack.js.org/guides/lazy-loading/
 // https://github.com/babel/babel-loader/issues/493#issuecomment-336493807
-function component() {
+function btnComponent() {
   const button = document.createElement('button');
   button.innerHTML = 'Click me and look at the console!';
 
@@ -32,6 +35,14 @@ function component() {
 
   return button;
 }
+function imgComponent() {
+  const img = new Image();
+  img.classList.add(styles.chicken);
+  img.src = ChickenFakeEyes;
 
-document.body.appendChild(component());
+  return img;
+}
+
+document.body.appendChild(btnComponent());
+document.body.appendChild(imgComponent());
 

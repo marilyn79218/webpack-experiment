@@ -30,8 +30,24 @@ module.exports = {
           // directory for faster rebuilds.
           cacheDirectory: true,
           presets: ['@babel/preset-env'],
+          // On-demand loading js chunk
           plugins: ['@babel/plugin-syntax-dynamic-import']
         },
+      },
+      {
+      	// Critical css using style tag for faster rendering
+      	test: /\.cr\.css$/,
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
+            },
+          }
+        ],
       },
       {
         test: /\.scss$/,
@@ -39,6 +55,14 @@ module.exports = {
           fallback: 'style-loader', // In case of extract failed
           use: ['css-loader', 'sass-loader']
         })
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: require.resolve('url-loader'),
+        options: {
+          limit: 10000,
+          name: 'static/media/[name].[hash:8].[ext]',
+        },
       }
     ]
   },
@@ -63,6 +87,7 @@ module.exports = {
     ),
   ],
   watch: true,
+  // ref: https://ithelp.ithome.com.tw/articles/10184852
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
   },
