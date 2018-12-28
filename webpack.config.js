@@ -17,7 +17,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/[name].[chunkhash].js',
+    filename: 'static/js/[name].[hash].js',
     chunkFilename: 'static/js/[name].chunk.js'
   },
   module: {
@@ -94,10 +94,15 @@ module.exports = {
       }
     ),
     new BundleAnalyzerPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   watch: true,
+  // ref: https://www.youtube.com/watch?v=fGed9phNkto
+  // It's a neat method of getting access to the original source code when debugging compiled applications
+  devtool: 'cheap-module-source-map',
   // ref: https://ithelp.ithome.com.tw/articles/10184852
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
+    hot: true,
   },
 };
