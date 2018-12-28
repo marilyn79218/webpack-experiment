@@ -94,6 +94,8 @@ module.exports = {
       }
     ),
     new webpack.HotModuleReplacementPlugin(),
+    // ref: https://www.jianshu.com/p/8499842defbe
+    new webpack.NamedModulesPlugin(),
   ],
   watch: true,
   // ref: https://ithelp.ithome.com.tw/articles/10184852
