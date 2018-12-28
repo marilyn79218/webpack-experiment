@@ -58,6 +58,9 @@ function hmrBtnComponent() {
 let hmrBtn = hmrBtnComponent();
 document.body.appendChild(hmrBtn);
 
+// Used to observe the original codes mapped from source map
+debugger;
+
 // Make the browser not reloaded when modification heppening in 'printMe.js'
 // Otherwise, browser will being reloaded.
 if (module.hot) {
