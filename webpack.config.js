@@ -8,7 +8,7 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: './src/app.js',
+    app: './src/index.js',
     vendor: [
       'ramda',
       'moment'
@@ -30,7 +30,7 @@ module.exports = {
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
           cacheDirectory: true,
-          presets: ['@babel/preset-env'],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
           // On-demand loading js chunk
           plugins: ['@babel/plugin-syntax-dynamic-import']
         },

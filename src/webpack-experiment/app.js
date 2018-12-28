@@ -4,7 +4,7 @@ import printMe from './printMe.js';
 import styles from './style.cr.css';
 import './style.scss';
 
-import ChickenFakeEyes from './shared/assets/GG.jpg';
+import ChickenFakeEyes from '../shared/assets/GG.jpg';
 
 const Name = ['Mike', 'Jacky', 'Andy', 'Scars'];
 Name.forEach((obj, idx)=> console.log(`${idx} => ${obj}`));
@@ -58,7 +58,7 @@ function hmrBtnComponent() {
 let hmrBtn = hmrBtnComponent();
 document.body.appendChild(hmrBtn);
 
-// Make the browser not reloaded when modification heppening in 'printMe.js'
+// This block makes the browser not being reloaded when modification heppening in 'printMe.js'
 // Otherwise, browser will being reloaded.
 if (module.hot) {
   module.hot.accept('./printMe.js', () => {
