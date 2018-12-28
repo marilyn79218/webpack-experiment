@@ -59,7 +59,7 @@ let hmrBtn = hmrBtnComponent();
 document.body.appendChild(hmrBtn);
 
 // Used to observe the original codes mapped from source map
-debugger;
+// debugger;
 
 // Make the browser not reloaded when modification heppening in 'printMe.js'
 // Otherwise, browser will being reloaded.
@@ -71,4 +71,12 @@ if (module.hot) {
     document.body.appendChild(hmrBtn);
   })
 }
+
+// ----- Test to observe the required content from .js, .json file -----
+// .js file
+// Exported object from test-1.js
+// If test-1.js exports nothing, the loaded content would be {}, an empty object
+console.log('module-test 1', require('./module-test/test-1'));
+// .json file
+console.log('module-test 2', require('./module-test/test-2')); // Content of test-2.json
 
