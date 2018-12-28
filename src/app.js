@@ -21,8 +21,8 @@ console.log('ramda - name', name);
 
 
 // To lazy load a component
-// https://webpack.js.org/guides/lazy-loading/
-// https://github.com/babel/babel-loader/issues/493#issuecomment-336493807
+// ref: https://webpack.js.org/guides/lazy-loading/
+// ref: https://github.com/babel/babel-loader/issues/493#issuecomment-336493807
 function btnComponent() {
   const button = document.createElement('button');
   button.innerHTML = 'Click me and look at the console!';

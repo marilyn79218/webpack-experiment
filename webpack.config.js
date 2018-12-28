@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -36,7 +37,7 @@ module.exports = {
         },
       },
       {
-      	// Critical css using style tag for faster rendering
+      	// Critical css module using style tag for faster rendering
       	test: /\.cr\.css$/,
         use: [
           require.resolve('style-loader'),
@@ -74,6 +75,7 @@ module.exports = {
       inject: true,
       template: 'public/index.html',
     }),
+    // ref: https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content
     new PreloadWebpackPlugin({
       rel: 'preload',
       include: 'allAssets',
@@ -91,6 +93,7 @@ module.exports = {
         watch: true,
       }
     ),
+    new BundleAnalyzerPlugin(),
   ],
   watch: true,
   // ref: https://ithelp.ithome.com.tw/articles/10184852
