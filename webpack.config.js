@@ -11,7 +11,9 @@ module.exports = {
     app: './src/index.js',
     vendor: [
       'ramda',
-      'moment'
+      'moment',
+      'react',
+      'react-dom'
     ]
   },
   output: {
