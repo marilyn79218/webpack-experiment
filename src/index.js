@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import Root from './Root';
 
 ReactDOM.render(
-  <App />,
+  <Root />,
   document.getElementById('app')
 );
 
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
+  module.hot.accept('./Root', () => {
 
     // Since App component is exported in Module.default,
     // we access it from default property
-    const NextApp = require('./components/App').default;
+    const NextRoot = require('./Root').default;
     ReactDOM.render(
-      <NextApp />,
+      <NextRoot />,
       document.getElementById('app')
     );
   })
