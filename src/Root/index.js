@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import App from '../containers/App';
+import AppRoute from './AppRoute';
 import store from './store';
 
 class Root extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <App />
+        <Router>
+          <AppRoute />
+        </Router>
       </Provider>
     )
   }

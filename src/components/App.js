@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ADD_STUDENT } from '../shared/constants';
 import { asyncAddStudentAction } from '../actions';
@@ -9,7 +10,7 @@ const initState = {
   initStudent: [
     {
       id: 0,
-      name: 'Ray',
+      name: 'About',
       age: 10,
     },
   ],
@@ -18,6 +19,7 @@ const initState = {
 const App = ({
   count,
   setCount,
+  children,
 }) => {
   const [inputStudent, setInputStudent] = useState('');
 
@@ -58,14 +60,16 @@ const App = ({
         <ul>
           {
             students.map(student => (
-              <li
+              <Link
                 key={student.id}
+                to={`/${student.name.toLowerCase()}`}
               >
                 { student.name }
-              </li>
+              </Link>
             ))
           }
         </ul>
+        { children }
       </div>
     </>
   )

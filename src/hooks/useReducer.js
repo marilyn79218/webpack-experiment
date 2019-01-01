@@ -8,6 +8,7 @@ const myThunk = dispatch => (action) => {
   return dispatch(action);
 }
 
+// ref: https://reactjs.org/docs/hooks-custom.html#useyourimagination
 const useReducer = (reducer, initialState) => {
   const [state, setState] = useState(initialState);
 
