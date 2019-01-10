@@ -68,6 +68,14 @@ module.exports = {
       }
     ]
   },
+  // resolve: {
+  //   // Tell webpack what directories should be searched when resolving modules.
+  //   // This resolves node_modules hierachically. (The default configuration as well, can be omitted)
+  //   // See: https://github.com/webpack/webpack/issues/6505
+  //   modules: [
+  //     'node_modules'
+  //   ]
+  // },
   plugins: [
     new ExtractTextPlugin('static/css/style.css'),
     // Add <script> and <link> into template html
@@ -95,6 +103,14 @@ module.exports = {
     ),
     new BundleAnalyzerPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    // 告訴 Webpack：每當在 old-ramda-dependency 中遇到 `import ... from 'ramda';` 時，
+    // 就變成「到隔壁同樣相依 ramda@0.18.0 的 old-ramda-dependency node_modules 中引用 ramda」。
+    // See: https://github.com/webpack/webpack/issues/5593#issuecomment-390356276
+    new webpack.NormalModuleReplacementPlugin(/^ramda$/, function(resource) {
+      if (resource.context.includes('node_modules/old-ramda-dependency-2')) {
+        resource.request = '../old-ramda-dependency/node_modules/ramda';
+      }
+    }),
   ],
   watch: true,
   // ref: https://www.youtube.com/watch?v=fGed9phNkto

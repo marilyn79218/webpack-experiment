@@ -1,4 +1,7 @@
-import { prop } from 'ramda';
+import { prop } from 'ramda'; // 0.26.1
+import { newRayRamda } from 'ramda-dependency'; // 0.26.1
+import { oldRayMethod as rayMethod } from 'old-ramda-dependency'; // 0.18.0
+import { oldRayMethod2 as rayMethod2 } from 'old-ramda-dependency-2'; // 0.18.0
 import moment from 'moment';
 import printMe from './printMe.js';
 import styles from './style.cr.css';
@@ -19,6 +22,9 @@ const getName = prop('name');
 const name = getName(person);
 
 console.log('ramda - name', name);
+console.log('old ramda - newRayRamda', newRayRamda);
+console.log('old ramda - oldRayMethod', rayMethod);
+console.log('old ramda 2 - oldRayMethod2', rayMethod2);
 
 
 // To lazy load a component
