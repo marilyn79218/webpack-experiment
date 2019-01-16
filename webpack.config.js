@@ -10,7 +10,11 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   entry: {
     app: './src/app.js',
+    // 特地把一些 modules 列出來，成為另一個 static/js/vendor.[hash].js
+    // 接著在 CommonsChunkPlugin 搭配下，因為這些 modules 同時在 app.js & vendor.js 中用到，
+    // 所以相同的 modules 會被獨立切分為另一個 common-vendors.js
     vendor: [
+      // List the module names which can be found in node_modules/
       'ramda',
       'moment'
     ]
@@ -89,8 +93,11 @@ module.exports = {
       include: 'allAssets',
       fileWhitelist: [/\.jpe?g/],
     }),
+    // Used to extract the same modules between entry points
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor' // Specify the common bundle's name.
+      // Specify the common chunk's name.
+      // If it's same as one of entry, the extracted modules will be merge into that entry file
+      name: 'common-vendors'
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
