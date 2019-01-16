@@ -96,35 +96,37 @@ module.exports = {
     }),
 
     // ****************** CommonsChunkPlugin START (CCP) ******************
+    // ------ Simple CCP ------
     // Used to extract the common modules which exists in all entry points
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   // Specify the common chunk's name.
-    //   // If it's same as one of entry, the extracted modules will be merge into that entry file
-    //   name: 'common-vendors',
-    //   // 1. Number: 表示對 module 而言，唯有當它「同時存在於 n 個 chunks 中」時，該 module 才會被放到 common-vendors.js 中
-    //   // Default is the number of current chunks/ entries
-    //   minChunks: 2
-    //   // 2. Function: 符合此 function 的 module，才會被放到 common-vendors.js 中
-    //   // minChunks: (module, count) =>
-    //   //   module.resource && (/ramda|moment/).test(module.resource) && count >= 2,
-    // }),
+    new webpack.optimize.CommonsChunkPlugin({
+      // Specify the common chunk's name.
+      // If it's same as one of entry, the extracted modules will be merge into that entry file
+      name: 'common-vendors',
+      // 1. Number: 表示對 module 而言，唯有當它「同時存在於 n 個 chunks 中」時，該 module 才會被放到 common-vendors.js 中
+      // Default is the number of current chunks/ entries
+      minChunks: 2
+      // 2. Function: 符合此 function 的 module，才會被放到 common-vendors.js 中
+      // minChunks: (module, count) =>
+      //   module.resource && (/ramda|moment/).test(module.resource) && count >= 2,
+    }),
     // Result: 把同時出上述三個 entries (chunks) 中出現 2 次 (即 count) 的 module，都放到 common-vendors.[hash].js 中
 
-    // Nested CCP:
+    // ------ Nested CCP ------
     // 在使用多個 CCP 時，每一回的 CCP 都會從上一次的「萃取結果」中繼續萃取 modules
+    // 也就是說，不斷把一個 chunk 中的某些 module 再次萃取出來，成為另一個 chunk。
     // See: https://github.com/webpack/webpack/issues/4638#issuecomment-292583989
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: (m) => /node_modules/.test(m.context)
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'ramda',
-      minChunks: (m) => /node_modules\/(?:ramda|moment)/.test(m.context)
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'moment',
-      minChunks: (m) => /node_modules\/(?:moment)/.test(m.context)
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor',
+    //   minChunks: (m) => /node_modules/.test(m.context)
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'ramda',
+    //   minChunks: (m) => /node_modules\/(?:ramda|moment)/.test(m.context)
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'moment',
+    //   minChunks: (m) => /node_modules\/(?:moment)/.test(m.context)
+    // }),
     // Result: 得到「ramda, moment, vendor」三者互相獨立的 [name].[hash].js。
     // ****************** CommonsChunkPlugin END (CCP) ******************
 
