@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -59,6 +60,10 @@ module.exports = {
           use: ['css-loader', 'sass-loader']
         })
       },
+      // Transpiling css from react-bootstrap purpose
+      { test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         loader: require.resolve('url-loader'),
@@ -96,11 +101,24 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     // ref: https://www.jianshu.com/p/8499842defbe
     new webpack.NamedModulesPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   watch: true,
+  // Webpack CLI: --display-modules
+  // See: https://webpack.js.org/configuration/stats/#stats
+  stats: {
+    // Module hidden if returns true
+    // i.e., Shows modules about react-bootstrap only
+    excludeModules: moduleSource => !(/react-bootstrap/.test(moduleSource)),
+  },
   // ref: https://ithelp.ithome.com.tw/articles/10184852
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     hot: true,
+    // For webpack-dev-server, put stats option in devServer
+    // See: https://webpack.js.org/configuration/dev-server/#devserver-stats-
+    stats: {
+      excludeModules: moduleSource => !(/react-bootstrap/.test(moduleSource)),
+    },
   },
 };
