@@ -7,6 +7,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 module.exports = {
   entry: {
     app: './src/index.js',
@@ -74,20 +76,21 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'all'
+        }
+      }
+    }
+  },
   plugins: [
     new ExtractTextPlugin('static/css/style.css'),
     // Add <script> and <link> into template html
     new HtmlWebpackPlugin({
       inject: true,
       template: 'public/index.html',
-    }),
-    new PreloadWebpackPlugin({
-      rel: 'preload',
-      include: 'allAssets',
-      fileWhitelist: [/\.jpe?g/],
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor' // Specify the common bundle's name.
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
@@ -103,6 +106,7 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
     new BundleAnalyzerPlugin(),
   ],
+  mode: isDevelopment ? 'development' : 'production',
   watch: true,
   // Webpack CLI: --display-modules
   // See: https://webpack.js.org/configuration/stats/#stats
