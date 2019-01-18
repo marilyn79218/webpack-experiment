@@ -7,9 +7,6 @@ import Button from 'react-bootstrap/lib/Button'; // Lead to minimized bundle
 // import { Button } from 'react-bootstrap/lib';
 // import { Button } from 'react-bootstrap';
 
-// See: https://stackoverflow.com/a/35108052
-import style from 'bootstrap/dist/css/bootstrap.css';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
