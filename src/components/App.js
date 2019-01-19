@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/lib/Button'; // Lead to minimized bundle
 // import { Button } from 'react-bootstrap/lib';
 // import { Button } from 'react-bootstrap';
 
+import ChickenFakeEyes from '../shared/assets/GG.jpg';
+
 console.log('Today', moment().format());
 
 class App extends React.Component {
@@ -28,6 +30,9 @@ class App extends React.Component {
         <div>
           <span>Count: { count }</span>
         </div>
+        <img
+          src={ChickenFakeEyes}
+        />
       </>
     )
   }
