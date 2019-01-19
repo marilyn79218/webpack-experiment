@@ -82,6 +82,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: 'public/index.html',
+      minify: isProduction ? {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      } : {},
     }),
     new PreloadWebpackPlugin({
       rel: 'preload',
@@ -113,7 +125,16 @@ module.exports = {
     new BundleAnalyzerPlugin(),
   ].concat(isProduction ? [
     // ref: https://remarkablemark.org/blog/2017/02/25/webpack-ignore-module/
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        comparisons: false,
+      },
+      output: {
+        comments: false,
+        ascii_only: true,
+      },
+    }),
   ] : []),
   watch: true,
   // Webpack CLI: --display-modules
