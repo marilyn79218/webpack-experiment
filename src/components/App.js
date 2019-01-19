@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 // Try to import what you need only. See:
 // 1. https://medium.com/p/ce3b4b634c46#eb41
@@ -6,6 +7,8 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button'; // Lead to minimized bundle
 // import { Button } from 'react-bootstrap/lib';
 // import { Button } from 'react-bootstrap';
+
+console.log('Today', moment().format());
 
 class App extends React.Component {
   constructor(props) {

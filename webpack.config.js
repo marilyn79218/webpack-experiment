@@ -7,6 +7,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: {
     app: './src/index.js',
@@ -101,8 +103,18 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     // ref: https://www.jianshu.com/p/8499842defbe
     new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      }
+    }),
+    // ref: https://github.com/marilyn79218/vis-large-app-starter-kit/blob/master/config/webpack.config.prod.js#L357
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new BundleAnalyzerPlugin(),
-  ],
+  ].concat(isProduction ? [
+    // ref: https://remarkablemark.org/blog/2017/02/25/webpack-ignore-module/
+    new webpack.optimize.UglifyJsPlugin(),
+  ] : []),
   watch: true,
   // Webpack CLI: --display-modules
   // See: https://webpack.js.org/configuration/stats/#stats
