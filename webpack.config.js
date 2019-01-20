@@ -13,7 +13,7 @@ module.exports = {
   entry: {
     app: './src/index.js',
     vendor: [
-      'ramda',
+      // 'ramda', // Avoid importing entire ramda library
       'moment',
       'react',
       'react-dom'
@@ -37,7 +37,11 @@ module.exports = {
           cacheDirectory: true,
           presets: ['@babel/preset-env', '@babel/preset-react'],
           // On-demand loading js chunk
-          plugins: ['@babel/plugin-syntax-dynamic-import']
+          plugins: [
+            '@babel/plugin-syntax-dynamic-import',
+            // Both workable either putting at here, or at .babelrc
+            // 'ramda',
+          ]
         },
       },
       {
@@ -63,9 +67,9 @@ module.exports = {
         })
       },
       // Transpiling css from react-bootstrap purpose
-      { test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
+      // { test: /\.css$/,
+      //   use: ['style-loader', 'css-loader'],
+      // },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         loader: require.resolve('url-loader'),
@@ -101,7 +105,7 @@ module.exports = {
       fileWhitelist: [/\.jpe?g/],
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor' // Specify the common bundle's name.
+      name: 'common-vendors', // Specify the common bundle's name.
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',

@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { prop } from 'ramda';
 
 // Try to import what you need only. See:
 // 1. https://medium.com/p/ce3b4b634c46#eb41
@@ -10,6 +11,14 @@ import Button from 'react-bootstrap/lib/Button'; // Lead to minimized bundle
 
 import ChickenFakeEyes from '../shared/assets/GG.jpg';
 import { fetchSongsAPI } from '../api';
+
+const person = {
+  name: 'ray',
+};
+const getName = prop('name');
+const name = getName(person);
+
+console.log('ramda - name', name);
 
 console.log('Today', moment().format());
 
@@ -24,6 +33,7 @@ class App extends React.Component {
     };
   }
 
+  // ref: https://twitter.com/ryanflorence/status/1064740448801968128?s=04&fbclid=IwAR2sq088rGiFauRbpjcJ0lmOYvLfwc8Y51LAkzjrcgDzn82QoL0NE7OEmb0
   fetchSongs(nextSongCount) {
     this.setState({ count: nextSongCount });
     let now = (this.now = Date.now());
