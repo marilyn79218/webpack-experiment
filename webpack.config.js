@@ -144,6 +144,9 @@ module.exports = {
     // i.e., Shows modules about react-bootstrap only
     excludeModules: moduleSource => !(/react-bootstrap/.test(moduleSource)),
   },
+  // ref: https://www.youtube.com/watch?v=fGed9phNkto
+  // It's a neat method of getting access to the original source code when debugging compiled applications
+  devtool: 'cheap-module-source-map',
   // ref: https://ithelp.ithome.com.tw/articles/10184852
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
