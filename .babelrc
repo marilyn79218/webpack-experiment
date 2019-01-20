@@ -1,3 +1,6 @@
+// ref: https://babeljs.io/docs/en/configuration#what-s-your-use-case
+// ref: https://flaviocopes.com/babel/#an-example-babel-configuration
+// ref: https://stackoverflow.com/questions/48476373/whats-the-difference-when-configuring-webpack-babel-loader-vs-configuring-it-wit
 {
   "plugins": ["ramda"]
 }

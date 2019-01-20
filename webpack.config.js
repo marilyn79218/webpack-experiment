@@ -12,6 +12,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   entry: {
     app: './src/index.js',
+    // To see whether babel in webpack and .babelrc could work together or not
+    // i.e., dynamic import (webpack setting) & partial import Ramda (.babelrc setting)
+    experiment: './src/webpack-experiment/app.js',
     vendor: [
       // 'ramda', // Avoid importing entire ramda library
       'moment',
@@ -67,6 +70,7 @@ module.exports = {
         })
       },
       // Transpiling css from react-bootstrap purpose
+      // Commet here out when bundling webpack-experiment/app.js
       // { test: /\.css$/,
       //   use: ['style-loader', 'css-loader'],
       // },
