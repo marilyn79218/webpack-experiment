@@ -9,12 +9,10 @@ import AsyncCompHOC from '../shared/hocs/AsyncCompHOC';
 const AsyncAbout = AsyncCompHOC(() => import('../components/About'));
 
 const AppRoute = () => (
-  <App>
-    <Route
-      path='/about'
-      component={AsyncAbout}
-    />
-  </App>
+  <Switch>
+    <Route exact path='/about' component={AsyncAbout} />
+    <Route path='/' component={App} />
+  </Switch>
 );
 
 export default AppRoute;

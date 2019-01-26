@@ -10,7 +10,7 @@ const initState = {
   initStudent: [
     {
       id: 0,
-      name: 'About',
+      name: 'Ray',
       age: 10,
     },
   ],
@@ -19,7 +19,6 @@ const initState = {
 const App = ({
   count,
   setCount,
-  children,
 }) => {
   const [inputStudent, setInputStudent] = useState('');
 
@@ -57,19 +56,18 @@ const App = ({
             onChange={e => setInputStudent(e.target.value)}
           />
         </form>
+        <p>Student List:</p>
         <ul>
           {
             students.map(student => (
-              <Link
+              <li
                 key={student.id}
-                to={`/${student.name.toLowerCase()}`}
               >
                 { student.name }
-              </Link>
+              </li>
             ))
           }
         </ul>
-        { children }
       </div>
     </>
   )
