@@ -1,20 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
-import { ADD_STUDENT } from '../shared/constants';
-import { asyncAddStudentAction } from '../actions';
-import studentReducer from '../reducers/studentReducer';
 import useReducer from '../hooks/useReducer';
-
-const initState = {
-  initStudent: [
-    {
-      id: 0,
-      name: 'Ray',
-      age: 10,
-    },
-  ],
-};
+import { asyncAddStudentAction } from '../hooks/student/studentActions';
+import { initStudentState, studentReducer } from '../hooks/student/studentReducer';
+import { getRandomArbitrary } from '../shared/utils';
 
 const App = ({
   count,
@@ -22,13 +11,13 @@ const App = ({
 }) => {
   const [inputStudent, setInputStudent] = useState('');
 
-  const { initStudent } = initState;
+  const { initStudent } = initStudentState;
   const [students, dispatch] = useReducer(studentReducer, initStudent);
 
   return (
     <>
-      Hello from React
       <div>
+        <h3>Count from Redux Store</h3>
         <span>Count: { count }</span>
         <button
           onClick={() => setCount(count - 1)}
@@ -40,13 +29,14 @@ const App = ({
         >
           ++
         </button>
+        <h3>Local state with useReducer</h3>
         <form
           onSubmit={e => {
             e.preventDefault();
 
             dispatch(asyncAddStudentAction({
               name: inputStudent,
-              id: 1,
+              id: getRandomArbitrary(),
             }));
             setInputStudent('');
           }}

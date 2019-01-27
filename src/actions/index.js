@@ -1,6 +1,7 @@
 import {
   SET_COUNT,
-  ADD_STUDENT,
+  ADD_CLASS,
+  ADD_ITEM,
 } from '../shared/constants';
 
 export const setCountAction = nextCount => ({
@@ -8,12 +9,11 @@ export const setCountAction = nextCount => ({
   payload: nextCount,
 });
 
-export const asyncAddStudentAction = newStudent => dispatch => {
-  setTimeout(() => {
-    const newStudentAction = {
-      type: ADD_STUDENT,
-      payload: newStudent,
-    }
-    dispatch(newStudentAction);
-  }, 1000);
-};
+export const addClassAction = newClass => ({
+  type: ADD_CLASS,
+  payload: newClass,
+});
+export const addItemAction = newItem => ({
+  type: ADD_ITEM,
+  payload: newItem,
+});

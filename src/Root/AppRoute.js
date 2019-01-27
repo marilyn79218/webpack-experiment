@@ -6,7 +6,7 @@ import {
 import App from '../containers/App';
 import AsyncCompHOC from '../shared/hocs/AsyncCompHOC';
 
-const AsyncAbout = AsyncCompHOC(() => import('../components/About'));
+const AsyncAbout = AsyncCompHOC(() => import('../containers/About'));
 
 const AppRoute = () => (
   <Switch>

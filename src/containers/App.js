@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { countSelector } from '../selectors';
+import { countSelector } from '../selectors/countSelector';
 import { setCountAction } from '../actions';
 import App from '../components/App';
 
