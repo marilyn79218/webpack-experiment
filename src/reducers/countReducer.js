@@ -1,4 +1,5 @@
 import { SET_COUNT } from '../shared/constants';
+import reducerRegistry from '../shared/utils/storeManager';
 
 const initState = {
   count: 0,
@@ -15,5 +16,7 @@ function countReducer(state = initState, action) {
       return state;
   }
 }
+
+reducerRegistry.register('countReducer', countReducer);
 
 export default countReducer;

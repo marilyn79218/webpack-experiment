@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 import countReducer from './countReducer';
-import aboutReducer from './about';
 import filterReducer from './filterReducer';
 
 // Nested reducers: 
@@ -9,7 +8,6 @@ import filterReducer from './filterReducer';
 // ref2: https://gist.github.com/sergiodxa/444b6efdbfa4c604df5b1f1017a61cea
 const rootReducer = combineReducers({
   countReducer,
-  aboutReducer,
   filterReducer,
 });
 

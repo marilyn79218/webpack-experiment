@@ -6,11 +6,16 @@ import {
 import App from '../containers/App';
 import AsyncCompHOC from '../shared/hocs/AsyncCompHOC';
 
-const AsyncAbout = AsyncCompHOC(() => import('../containers/About'));
-
 const AppRoute = () => (
   <Switch>
-    <Route exact path='/about' component={AsyncAbout} />
+    <Route exact path='/about'
+      component={
+        AsyncCompHOC(
+          () => import('../containers/About'),
+          () => import('../reducers/about'),
+        )
+      }
+    />
     <Route path='/' component={App} />
   </Switch>
 );

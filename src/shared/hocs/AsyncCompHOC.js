@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AsyncCompHOC = getComponent => 
+const AsyncCompHOC = (getComponent, getReducer) => 
   class AsyncComp extends React.Component {
     constructor(props) {
       super(props);
@@ -10,9 +10,14 @@ const AsyncCompHOC = getComponent =>
     }
 
     componentDidMount() {
-      getComponent().then(({ default: _default }) => this.setState({
-        Component: _default,
-      }));
+      Promise.all([getComponent(), getReducer()])
+        .then((
+          [{ default: Component }, { default: reducer }]
+        ) =>
+          this.setState({
+            Component,
+          })
+        );
     }
 
     render() {

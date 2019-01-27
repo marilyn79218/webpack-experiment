@@ -1,4 +1,5 @@
 import { SET_FILTER } from '../shared/constants';
+import reducerRegistry from '../shared/utils/storeManager';
 
 const initState = {
   filter: '',
@@ -15,5 +16,7 @@ function filterReducer(state = initState, action) {
       return state;
   }
 }
+
+reducerRegistry.register('filterReducer', filterReducer);
 
 export default filterReducer;
