@@ -35,7 +35,8 @@ const About = ({
         onClick={() => {
           return import('../reducers/filterReducer')
             .then(({ default: filterReducer }) =>
-              nestingReducer('filterReducer', filterReducer)
+              // nestingReducer('filterReducer', filterReducer)
+              nestingReducer('filterReducer', filterReducer, ['aboutReducer', 'classesReducer'])
             )
         }}
       >
