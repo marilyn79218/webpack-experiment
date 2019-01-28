@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { getRandomArbitrary } from '../shared/utils';
+import { nestingReducer } from '../reducers/about';
 
 const About = ({
   classes,
@@ -29,6 +30,17 @@ const About = ({
 
   return (
     <div>
+      <h5>Click here to load filter reducer</h5>
+      <button
+        onClick={() => {
+          return import('../reducers/filterReducer')
+            .then(({ default: filterReducer }) =>
+              nestingReducer('filterReducer', filterReducer)
+            )
+        }}
+      >
+        Load
+      </button>
       Nested reducer store
       <form
         onSubmit={submitClassName}

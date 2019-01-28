@@ -17,6 +17,7 @@ function filterReducer(state = initState, action) {
   }
 }
 
-reducerRegistry.register('filterReducer', filterReducer);
+// On demand loading reducer, no need to register at initial
+// reducerRegistry.register('filterReducer', filterReducer);
 
 export default filterReducer;

@@ -12,4 +12,14 @@ const combinedAboutReducer = combineReducers({
 
 reducerRegistry.register('aboutReducer', combinedAboutReducer);
 
-export default combinedAboutReducer;
+// export default combinedAboutReducer;
+const asyncReducers = {};
+export const nestingReducer = (nestedReducerName, nestedReducer) => {
+  asyncReducers[nestedReducerName] = nestedReducer;
+
+  reducerRegistry.register('aboutReducer', combineReducers({
+    classesReducer,
+    itemsReducer,
+    ...asyncReducers,
+  }));
+}
