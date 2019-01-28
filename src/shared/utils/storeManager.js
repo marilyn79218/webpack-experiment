@@ -42,22 +42,23 @@ export class ReducerRegistry {
     }
 
     console.log('dictRegister 2', this._reducerDict);
+    if (this._emitChange) {
+      // TODO: Modify the selector path
+      this._emitChange(this.turnToCombinedReducers(this._reducerDict));
+    }
   }
 
-  // TODO: Finish it
-  // getCombinedReducers(reducerDict) {
-  //   const dict = {};
-  //   for (reducerKey in reducerDict) {
-  //     if (!(reducerDict[reducerKey] instanceof Function)) {
-  //       return getCombinedReducers(reducerDict[reducerKey]);
-  //     }
-  //     dict[reducerKey] = 
-  //       reducerDict[reducerKey] instanceof Function ?
-  //         reducerDict[reducerKey] :
-  //         getCombinedReducers(reducerDict[reducerKey])
-  //   }
-  //   return combineReducers(reducerDict);
-  // }
+  turnToCombinedReducers(reducerDict) {
+    const dict = {};
+    for (let reducerKey in reducerDict) {
+      dict[reducerKey] =
+        reducerDict[reducerKey] instanceof Function ?
+        reducerDict[reducerKey] :
+        this.turnToCombinedReducers(reducerDict[reducerKey]);
+    }
+
+    return combineReducers(dict);
+  }
 
   setChangeListener(listener) {
     this._emitChange = listener;

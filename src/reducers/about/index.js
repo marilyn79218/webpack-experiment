@@ -10,7 +10,7 @@ const combinedAboutReducer = combineReducers({
   itemsReducer,
 });
 
-reducerRegistry.register('aboutReducer', combinedAboutReducer);
+// reducerRegistry.register('aboutReducer', combinedAboutReducer);
 reducerRegistry.dictRegister('aboutReducer', {
   classesReducer,
   itemsReducer,
@@ -21,10 +21,10 @@ const asyncReducers = {};
 export const nestingReducer = (nestedReducerName, nestedReducer, reducerPath) => {
   asyncReducers[nestedReducerName] = nestedReducer;
 
-  reducerRegistry.register('aboutReducer', combineReducers({
-    classesReducer,
-    itemsReducer,
-    ...asyncReducers,
-  }));
+  // reducerRegistry.register('aboutReducer', combineReducers({
+  //   classesReducer,
+  //   itemsReducer,
+  //   ...asyncReducers,
+  // }));
   reducerRegistry.dictRegister(nestedReducerName, nestedReducer, reducerPath);
 }

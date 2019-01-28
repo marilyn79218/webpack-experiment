@@ -17,7 +17,7 @@ function countReducer(state = initState, action) {
   }
 }
 
-reducerRegistry.register('countReducer', countReducer);
+// reducerRegistry.register('countReducer', countReducer);
 reducerRegistry.dictRegister('countReducer', countReducer);
 
 export default countReducer;

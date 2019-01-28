@@ -7,9 +7,13 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+// reducerRegistry.setChangeListener(
+//   reducers =>
+//     store.replaceReducer(combineReducers(reducers))
+// );
 reducerRegistry.setChangeListener(
-  reducers =>
-    store.replaceReducer(combineReducers(reducers))
+  combinedReducers =>
+    store.replaceReducer(combinedReducers)
 );
 
 export default store;
