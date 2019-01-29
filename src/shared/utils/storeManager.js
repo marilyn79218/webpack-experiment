@@ -3,20 +3,7 @@ import { combineReducers } from 'redux';
 export class ReducerRegistry {
   constructor() {
     this._emitChange = null;
-    this._reducers = {};
-
     this._reducerDict = {};
-  }
-
-  getReducers() {
-    return { ...this._reducers };
-  }
-
-  register(name, reducer) {
-    this._reducers = { ...this._reducers, [name]: reducer };
-    if (this._emitChange) {
-      this._emitChange(this.getReducers());
-    }
   }
 
   dictRegister(name, reducer, path) {
@@ -43,7 +30,6 @@ export class ReducerRegistry {
 
     console.log('dictRegister 2', this._reducerDict);
     if (this._emitChange) {
-      // TODO: Modify the selector path
       this._emitChange(this.turnToCombinedReducers(this._reducerDict));
     }
   }
@@ -68,3 +54,11 @@ export class ReducerRegistry {
 const reducerRegistry = new ReducerRegistry();
 
 export default reducerRegistry;
+
+let pointer;
+export const getReducerPath = (parentDict, reducerName) => {
+  if (!parentDict[reducerName]) return parentDict;
+  else pointer = parentDict[reducerName];
+
+  return getReducerPath(pointer, reducerName);
+}

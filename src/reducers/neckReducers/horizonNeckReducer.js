@@ -5,7 +5,7 @@ const initState = {
   direction: '',
 };
 
-function neckReducer(state = initState, action) {
+function horizonNeckReducer(state = initState, action) {
   switch (action.type) {
     case SET_LEFT:
       return {
@@ -22,4 +22,4 @@ function neckReducer(state = initState, action) {
   }
 }
 
-export default neckReducer;
+export default horizonNeckReducer;

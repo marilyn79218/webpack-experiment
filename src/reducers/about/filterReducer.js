@@ -1,5 +1,4 @@
-import { SET_FILTER } from '../shared/constants';
-import reducerRegistry from '../shared/utils/storeManager';
+import { SET_FILTER } from '../../shared/constants';
 
 const initState = {
   filter: '',
@@ -16,8 +15,5 @@ function filterReducer(state = initState, action) {
       return state;
   }
 }
-
-// On demand loading reducer, no need to register at initial
-// reducerRegistry.register('filterReducer', filterReducer);
 
 export default filterReducer;

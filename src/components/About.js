@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { getRandomArbitrary } from '../shared/utils';
-import { nestingReducer } from '../reducers/about';
+import reducerRegistry from '../shared/utils/storeManager';
 
 const About = ({
   classes,
@@ -33,11 +33,18 @@ const About = ({
       <h5>Click here to load filter reducer</h5>
       <button
         onClick={() => {
-          return import('../reducers/filterReducer')
-            .then(({ default: filterReducer }) =>
-              // nestingReducer('filterReducer', filterReducer)
-              nestingReducer('filterReducer', filterReducer, ['aboutReducer', 'classesReducer'])
-            )
+          return Promise.all([
+            import('../reducers/neckReducers/horizonNeckReducer'),
+            import('../reducers/neckReducers/verticalNeckReducer'),
+          ]).then((
+              [
+                { default: vtcNeckReducer },
+                { default: hrzNeckReducer }
+              ]
+            ) => {
+              reducerRegistry.dictRegister('vtcNeckReducer', vtcNeckReducer, ['aboutReducer', 'classesReducer'])
+              reducerRegistry.dictRegister('hrzNeckReducer', hrzNeckReducer, ['aboutReducer', 'itemsReducer'])
+            })
         }}
       >
         Load
