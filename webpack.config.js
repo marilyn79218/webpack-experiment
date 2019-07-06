@@ -9,6 +9,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
   entry: {
+    // Each of entry point is an independent chunk
     app: './src/app.js',
     page: './src/page.js',
     // 特地把一些 modules 列出來，成為另一個 static/js/vendor.[hash].js
@@ -23,6 +24,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'static/js/[name].[hash].js',
+
+    // Non-entry chunk filename (Eg, dynamic loaded file's name)
+    // See: https://webpack.js.org/configuration/output/#outputchunkfilename
     chunkFilename: 'static/js/[name].chunk.js'
   },
   module: {
@@ -99,9 +103,19 @@ module.exports = {
     // ------ Simple CCP ------
     // Used to extract the common modules which exists in all entry points
     new webpack.optimize.CommonsChunkPlugin({
-      // Specify the common chunk's name.
-      // If it's same as one of entry, the extracted modules will be merge into that entry file
+      /* Specify its `chunk name` */
+      /* 1. If it's same as one of entry (an entry is a chunk as well),
+       * then the extracted modules will be merge into that entry file
+      */
+      /* 2. If not, modules that match this CommonsChunkPlugin config
+       * will be putted into this `my-vendors.js` file, where the chunk name is `common-vendors`
+       * (And `vendor.js` will be a very small chink in this case)
+      */
       name: 'common-vendors',
+      // Give it a specific filename rather than using chunk name as filename
+      // Notice that we're using `[chunkhash]` in filename but not `[hash]`
+      // They are different, see: https://medium.com/@sahilkkrazy/hash-vs-chunkhash-vs-contenthash-e94d38a32208
+      filename: 'my-vendors.[chunkhash].js',
       // 1. Number: 表示對 module 而言，唯有當它「同時存在於 n 個 chunks 中」時，該 module 才會被放到 common-vendors.js 中
       // Default is the number of current chunks/ entries
       minChunks: 2
@@ -109,6 +123,12 @@ module.exports = {
       // minChunks: (module, count) =>
       //   module.resource && (/ramda|moment/).test(module.resource) && count >= 2,
     }),
+    // Extract out manifest chunk (manifest.js)
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity
+    }),
+    new webpack.HashedModuleIdsPlugin(),
     // Result: 把同時出上述三個 entries (chunks) 中出現 2 次 (即 count) 的 module，都放到 common-vendors.[hash].js 中
 
     // ------ Nested CCP ------
