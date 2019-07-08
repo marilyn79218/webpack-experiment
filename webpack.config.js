@@ -145,6 +145,8 @@ module.exports = {
       filename: `manifest.${hashExtension}`,
       minChunks: Infinity
     }),
+    // Why we need it: https://loveky.github.io/2017/03/29/webpack-module-ids/
+    // See: https://www.evernote.com/shard/s353/nl/157489688/d01d1c43-22ae-434c-90b0-3e3ca2e9888c/
     new webpack.HashedModuleIdsPlugin(),
     // Result: 把同時出上述三個 entries (chunks) 中出現 2 次 (即 count) 的 module，都放到 common-vendors.[hash].js 中
 
@@ -182,6 +184,7 @@ module.exports = {
     new BundleAnalyzerPlugin(),
 
     // Notice: `HotModuleReplacementPlugin` can't work with `chunkhash`
+    // See: https://github.com/webpack/webpack/issues/2393#issuecomment-216614060
     !isProd && new webpack.HotModuleReplacementPlugin(),
     // 告訴 Webpack：每當在 old-ramda-dependency 中遇到 `import ... from 'ramda';` 時，
     // 就變成「到隔壁同樣相依 ramda@0.18.0 的 old-ramda-dependency node_modules 中引用 ramda」。
