@@ -6,6 +6,10 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+// Use it to extract the chunkId & hashed filename mapping from "manifest.xxx.js".
+// However, that "manifest.xxx.js" still keep changing when app code change,
+// even though the content of "manifest.xxx.js" in each build are the same... :(
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 
 /* 1. There's no need to hash for localhost (webpack-dev-server)
