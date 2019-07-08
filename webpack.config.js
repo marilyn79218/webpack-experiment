@@ -6,6 +6,16 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+
+/* 1. There's no need to hash for localhost (webpack-dev-server)
+ * See: https://github.com/webpack/webpack-dev-server/issues/377#issuecomment-272941499
+ *
+ * 2. Notice that we're using `[chunkhash]` in filename but not `[hash]`
+ * They are different, see: https://medium.com/@sahilkkrazy/hash-vs-chunkhash-vs-contenthash-e94d38a32208
+*/
+const isProd = process.env.NODE_ENV === 'production';
+const hashExtension = isProd ? '[chunkhash:8].js' : 'js';
 
 module.exports = {
   entry: {
@@ -23,11 +33,11 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/[name].[hash].js',
+    filename: `static/js/[name].${hashExtension}`,
 
     // Non-entry chunk filename (Eg, dynamic loaded file's name)
     // See: https://webpack.js.org/configuration/output/#outputchunkfilename
-    chunkFilename: 'static/js/[name].chunk.js'
+    chunkFilename: `static/js/[name].chunk.${hashExtension}`
   },
   module: {
     rules: [
@@ -113,9 +123,11 @@ module.exports = {
       */
       name: 'common-vendors',
       // Give it a specific filename rather than using chunk name as filename
-      // Notice that we're using `[chunkhash]` in filename but not `[hash]`
-      // They are different, see: https://medium.com/@sahilkkrazy/hash-vs-chunkhash-vs-contenthash-e94d38a32208
-      filename: 'my-vendors.[chunkhash].js',
+
+      // If the `filename` is not provided here,
+      // the result of a static chunk filename will follow the `output.filename`
+      // See: https://github.com/webpack/webpack.js.org/issues/970#issuecomment-305525560
+      filename: `my-vendors.${hashExtension}`,
       // 1. Number: 表示對 module 而言，唯有當它「同時存在於 n 個 chunks 中」時，該 module 才會被放到 common-vendors.js 中
       // Default is the number of current chunks/ entries
       minChunks: 2
@@ -126,6 +138,7 @@ module.exports = {
     // Extract out manifest chunk (manifest.js)
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
+      filename: `manifest.${hashExtension}`,
       minChunks: Infinity
     }),
     new webpack.HashedModuleIdsPlugin(),
@@ -153,6 +166,9 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
     }),
+    isProd && new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json'
+    }),
     new CleanWebpackPlugin(
       ['dist'],
       {
@@ -160,7 +176,9 @@ module.exports = {
       }
     ),
     new BundleAnalyzerPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+
+    // Notice: `HotModuleReplacementPlugin` can't work with `chunkhash`
+    !isProd && new webpack.HotModuleReplacementPlugin(),
     // 告訴 Webpack：每當在 old-ramda-dependency 中遇到 `import ... from 'ramda';` 時，
     // 就變成「到隔壁同樣相依 ramda@0.18.0 的 old-ramda-dependency node_modules 中引用 ramda」。
     // See: https://github.com/webpack/webpack/issues/5593#issuecomment-390356276
@@ -169,7 +187,7 @@ module.exports = {
         resource.request = '../old-ramda-dependency/node_modules/ramda';
       }
     }),
-  ],
+  ].filter(plugin => Boolean(plugin)),
   watch: true,
   // ref: https://www.youtube.com/watch?v=fGed9phNkto
   // It's a neat method of getting access to the original source code when debugging compiled applications
