@@ -18,6 +18,18 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'static/js/[name].[hash].js',
+
+    /*
+     * When Webpack is bundling your project, it'll resolve assets pathname with publicPath ('RRR/').
+     *
+     * For example, In bundled index.html:
+     * You originally have links: href="static/css/style.css" or src="static/js/[name].[hash].js"
+     * Then you got href="RRR/static/css/style.css" or src="RRR/static/js/[name].[hash].js" in bundled index.html, respectively.
+     *
+    */
+    // Using `yarn build` to observe index.html with this property.
+    // Ref: https://www.evernote.com/shard/s353/nl/157489688/686a11e9-2257-441c-b5a5-9797d5714fec/
+    // publicPath: 'RRR/',
     chunkFilename: 'static/js/[name].chunk.js'
   },
   module: {
