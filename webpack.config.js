@@ -186,7 +186,7 @@ module.exports = {
     // Notice: `HotModuleReplacementPlugin` can't work with `chunkhash`
     // See: https://github.com/webpack/webpack/issues/2393#issuecomment-216614060
     !isProd && new webpack.HotModuleReplacementPlugin(),
-    // 告訴 Webpack：每當在 old-ramda-dependency 中遇到 `import ... from 'ramda';` 時，
+    // 告訴 Webpack：每當在 old-ramda-dependency-2 中遇到 `import ... from 'ramda';` 時，
     // 就變成「到隔壁同樣相依 ramda@0.18.0 的 old-ramda-dependency node_modules 中引用 ramda」。
     // See: https://github.com/webpack/webpack/issues/5593#issuecomment-390356276
     new webpack.NormalModuleReplacementPlugin(/^ramda$/, function(resource) {
