@@ -6,10 +6,13 @@
   <head>
     <meta charset="UTF-8">
     <title>extract-css</title>
-    <!-- Make asyncJs.js as async in head, will execute whenever it download finished -->
+    <!-- Make asyncJs.js as async in head -->
+    <!-- Result: It will execute whenever it download finished -->
     <script type="text/javascript" src="static/js/asyncJs01.js" async></script>
     <!-- Make asyncJs02 after syncJs -->
-    <!-- Result: event if asyncJs02 has download finished earlier, it cannot execute untill syncJs finish execution -->
+    <!-- Result (Order: syncJs -> asyncJs01 -> asyncJs02): even if 'asyncJs01' & 'asyncJs02' both are download finished earlier, they cannot execute untill 'syncJs' finish its execution -->
+    <!-- Result (Order: asyncJs01 -> syncJs -> asyncJs02): even if 'asyncJs02' has download finished earlier, it cannot execute untill 'syncJs' finish its execution -->
+    <!-- Result (Order: asyncJs01 -> asyncJs02 -> syncJs): Then, 'asyncJs02' can execute whenever it download finished, no need to wait for 'syncJs' -->
     <script type="text/javascript" src="static/js/syncJs.js"></script>
     <script type="text/javascript" src="static/js/asyncJs02.js" async></script>
   </head>
