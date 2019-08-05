@@ -6,10 +6,16 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 module.exports = {
   entry: {
     app: './src/app.js',
+    syncJs: './src/sync.js',
+    asyncJs01: './src/async01.js',
+    asyncJs02: './src/async02.js',
+    deferJs: './src/defer.js',
+    preloadJs: './src/preload.js',
     vendor: [
       'ramda',
       'moment'
@@ -17,7 +23,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/[name].[hash].js',
+    filename: 'static/js/[name].js',
 
     /*
      * When Webpack is bundling your project, it'll resolve assets pathname with publicPath ('RRR/').
@@ -86,15 +92,20 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: 'public/index.html',
+      // These chunks are put into html manually
+      excludeChunks: ['syncJs', 'asyncJs01', 'asyncJs02'],
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      // Result: sync/ defer scripts (i.e., preloadJs & deferJs) are ensuered to execute before DCL, but async script is not.
+      // Result: If we remove deferJs, DCL evevnt will be triggered immediately when DOM parsed, i.e., when syncJs are execute finished
+      defer: 'deferJs',
+      preload: 'preloadJs',
     }),
     // ref: https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content
     new PreloadWebpackPlugin({
       rel: 'preload',
       include: 'allAssets',
       fileWhitelist: [/\.jpe?g/],
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor' // Specify the common bundle's name.
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',

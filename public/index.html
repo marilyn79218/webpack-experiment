@@ -1,10 +1,27 @@
 <!DOCTYPE html>
+<script>
+  performance.mark('HTML_start');
+</script>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>extract-css</title>
-</head>
-<body>
-  <h1>Hello World</h1>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>extract-css</title>
+    <!-- Make asyncJs.js as async in head, will execute whenever it download finished -->
+    <script type="text/javascript" src="static/js/asyncJs01.js" async></script>
+    <!-- Make asyncJs02 after syncJs -->
+    <!-- Result: event if asyncJs02 has download finished earlier, it cannot execute untill syncJs finish execution -->
+    <script type="text/javascript" src="static/js/syncJs.js"></script>
+    <script type="text/javascript" src="static/js/asyncJs02.js" async></script>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+  <script>
+    performance.mark('HTML_end');
+    performance.measure(
+      'MEASURE_html',
+      'HTML_start',
+      'HTML_end'
+    );
+  </script>
 </html>

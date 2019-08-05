@@ -6,6 +6,9 @@ import './style.scss';
 
 import ChickenFakeEyes from './shared/assets/GG.jpg';
 
+performance.mark('App_start');
+console.log('App NOW', performance.now());
+
 const Name = ['Mike', 'Jacky', 'Andy', 'Scars'];
 Name.forEach((obj, idx)=> console.log(`${idx} => ${obj}`));
 
@@ -80,3 +83,9 @@ console.log('module-test 1', require('./module-test/test-1'));
 // .json file
 console.log('module-test 2', require('./module-test/test-2')); // Content of test-2.json
 
+performance.mark('App_end');
+performance.measure(
+  'MEASURE_App.js',
+  'App_start',
+  'App_end',
+);
